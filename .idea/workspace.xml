@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="177e67dc-be59-40c0-81ad-0629a786013f" name="Changes" comment="final style fixes" />
+    <list default="true" id="177e67dc-be59-40c0-81ad-0629a786013f" name="Changes" comment="test" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,26 +38,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JavaScript Debug.BookMeeting.html.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.BookingURL.html.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.upcomingAppts.html.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Projects Github/portfolio&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JavaScript Debug.BookMeeting.html.executor": "Run",
+    "JavaScript Debug.BookingURL.html.executor": "Run",
+    "JavaScript Debug.upcomingAppts.html.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Projects Github/MyMcgillMeetings",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\Comp-307-Project\src\utils\images\useful" />
@@ -97,22 +97,7 @@
       <workItem from="1740418368800" duration="1086000" />
       <workItem from="1740529277278" duration="2264000" />
       <workItem from="1740581831440" duration="4242000" />
-    </task>
-    <task id="LOCAL-00002" summary="fixed styles">
-      <option name="closed" value="true" />
-      <created>1734226664580</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1734226664580</updated>
-    </task>
-    <task id="LOCAL-00003" summary="fixed styles">
-      <option name="closed" value="true" />
-      <created>1734226863886</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1734226863886</updated>
+      <workItem from="1740693232551" duration="2155000" />
     </task>
     <task id="LOCAL-00004" summary="fixed styles">
       <option name="closed" value="true" />
@@ -490,15 +475,29 @@
       <option name="project" value="LOCAL" />
       <updated>1734752068167</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Made database information private">
+      <option name="closed" value="true" />
+      <created>1740694088155</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1740694088156</updated>
+    </task>
+    <task id="LOCAL-00052" summary="test">
+      <option name="closed" value="true" />
+      <created>1740694890046</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1740694890047</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Login and register styles" />
-    <MESSAGE value="fix login styles" />
     <MESSAGE value="finished login and register entirely" />
     <MESSAGE value="nav bar styles" />
     <MESSAGE value="deleted useless links to self page" />
@@ -522,6 +521,8 @@
     <MESSAGE value="button styles" />
     <MESSAGE value="deleted README doc" />
     <MESSAGE value="final style fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="final style fixes" />
+    <MESSAGE value="Made database information private" />
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
 </project>

@@ -1,5 +1,5 @@
 # .gitignore
-.env
+/src/.env
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
