@@ -1,0 +1,104 @@
+<!--Written by Ping-Chieh Tu-->
+<style>
+        .menu .create {
+            background-color: #C11111;
+        }
+        .menu .create:hover {
+                background-color: #C11111;
+                cursor: default;
+        }
+
+        .main-content {
+            margin: 5vw;
+            padding: 0 20px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 90vw;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 40px;
+        }
+
+        .left-side,
+        .right-side {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        textarea,
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"] {
+            width: calc(100% - 10px);
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .dt-button {
+            height: 24px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .month-option {
+            width: calc(100% - 30px);
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .month-dow {
+            width: calc((100% - 120px) * 0.65);
+        }
+
+        .month-dow-order {
+            width: calc((100% - 120px) * 0.35);
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #e60000;
+        }
+        input[type="submit"]:active {
+            background-color: #cc0000;
+        }
+    
+        #type-radio, .dates-input, .dt-row {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc; /* Adds a border between sections */
+            padding-bottom: 10px;
+        }
+       
+
+        /* Increase height and make description box squared */
+        .desc-field {
+            height: 150px; /* Makes the description box taller */
+            resize: none; /* Allows resizing vertically */
+        }
+</style>

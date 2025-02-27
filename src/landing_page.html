@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<!--Written by Lucas Renaudie-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My McGill Meetings</title>
+    <link rel="icon" type="image/x-icon" href="./utils/images/useful/favicon.ico">
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[ \[\] ]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        window.onload = function() {
+            const redirectParam = getParameterByName('redirect');
+            if (redirectParam) {
+                let decodedRedirect = decodeURIComponent(redirectParam);
+                if (decodedRedirect.endsWith(';')) {
+                    decodedRedirect = decodedRedirect.slice(0, -1);
+                }
+                const hiddenInput = document.querySelector('input[name="redirect"]');
+                hiddenInput.value = decodedRedirect;
+            }
+        }
+    </script>
+    <style>
+        /* General Styles */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            position: relative;
+            background-image: url('utils/images/background/background.png');
+            background-size: cover; /* Ensure full-size background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+        }
+        .title {
+            display: flex;
+            z-index: 10; /* Ensure the logo is above the background */
+            justify-content: center;
+            margin-top: -150px;
+        }
+        .title img {
+            width: 1000px;
+            height: auto;
+        }
+        .description {
+            margin-top: 15px;
+            font-size: 30px;
+        }
+        .login-button {
+            margin-top: 60px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 55px;
+            font-size: 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-button:hover {
+            background-color: #e60000;
+        }
+        .login-button:active {
+            background-color: #cc0000;
+        }
+
+        .register {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        .register a {
+            color: black;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .register a:hover {
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 999; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 500px; /* Increased width to accommodate two columns */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-content h2 {
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        .modal-content label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            display: block;
+        }
+        .modal-content input[type="text"],
+        .modal-content input[type="password"],
+        .modal-content input[type="email"] {
+            padding: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Match modal buttons with main login button style */
+        .modal-login-btn, .modal-register-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer; /* Ensure pointer cursor */
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .modal-login-btn:hover, .modal-register-btn:hover {
+            background-color: #e60000;
+        }
+        .modal-login-btn:active, .modal-register-btn:active {
+            background-color: #cc0000;
+        }
+        .modal-login-btn {
+            margin-top: 10px;
+        }
+
+        .modal-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .modal-content .close-btn:hover {
+            color: #000;
+        }
+
+        .switch-to-register {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .switch-to-register a {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .switch-to-register a:hover {
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            user-select: none;
+            border-bottom: 2px solid transparent;
+        }
+        .tab:hover {
+            background: #f5f5f5;
+        }
+        .tab.active {
+            font-weight: bold;
+            border-bottom: 2px solid #ff4d4d;
+            background: #fff;
+        }
+
+        /* Two-column layout for registration form */
+        .form-columns {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .switch-to-login {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .switch-to-login a {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .switch-to-login a:hover {
+            color: #666;
+        }
+
+        .error-message {
+            padding-bottom: 4px;
+            padding-top: 10px;
+        }
+
+        .register-warning-message {
+            margin-top: -16px;
+            display: none;
+        }
+        .login-warning-message {
+            margin-top: -6px;
+            margin-bottom: -12px;
+            display: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) { /* Tablet */
+            body {
+                background-position: top;
+            }
+            .title img {
+                width: 700px;
+            }
+            .description {
+                font-size: 25px;
+            }
+            .login-button {
+                margin-top: 50px;
+                padding: 11px 45px;
+                font-size: 25px;
+            }
+            .register {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) { /* Mobile */
+            body {
+                background-position: top;
+            }
+            .title img {
+                width: 500px;
+            }
+            .description {
+                font-size: 18px;
+                text-align: center;
+            }
+            .login-button {
+                margin-top: 40px;
+                font-size: 20px;
+                padding: 9px 35px;
+            }
+            .register {
+                margin-top: 10px;
+                font-size: 15px;
+            }
+            .form-columns {
+                flex-direction: column;
+            }
+            .modal-content {
+                width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="title">
+    <img src="utils/images/logos/landing-page-logo.png" alt="Logo">
+</div>
+<div class="description">
+    Welcome to the McGill Meetings Platform
+</div>
+<button class="login-button" id="openModalBtn">Login</button>
+<div class="register">
+    Don't have an account? <a id="mainRegisterLink"><u>Register</u></a>
+</div>
+
+<!-- Login Modal -->
+<form action="login.php" method="POST" name="log-form" onsubmit="return logFormValid()">
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModalBtn" type="button">&times;</button>
+
+
+            <h2>Login</h2>
+            <h5 style="display: none; color: red; font-size: 15px; margin-top: 4px; margin-bottom:20px" id="user-not-exist">User not found. Please register</h5>
+            <h5 style="display: none; color: red; font-size: 15px; margin-top: 4px; margin-bottom:20px" id="log-prompt">Already registered. Please login</h5>
+            <h5 style="display: none; color: limegreen; font-size: 15px; margin-top: 2px; margin-bottom:20px" id="sregprompt">Successfully registered. Please login</h5>
+
+            <input type="hidden" name="redirect" value="">
+            <label for="email" id="emailLabel" name="emailLabel">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email">
+
+            <label for="password" name="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+            <div class="error-message" style="display: none; color: red;" id="passprompt" name="passprompt">Incorrect password</div>
+
+            <div class="login-warning-message" name="log-warning" id="log-warning"></div>
+
+            <input class="modal-login-btn" type="submit" value="Login">
+
+            <div class="switch-to-register">
+                Don't have an account? <a id="openRegisterLink"><u>Register</u></a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Registration Modal -->
+<form action="register.php" method="POST" name="reg-form" onsubmit="return regFormValid()">
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeRegisterBtn" type="button">&times;</button>
+
+            <h2>Register</h2>
+
+            <!-- <div style="display: none; color: red;" id="reg-prompt">User not found. Please register.</div> -->
+
+            <div class="form-columns">
+                <div class="form-column">
+                    <label for="reg-firstname">First Name</label>
+                    <input type="text" name="reg-firstname" id="reg-firstname" placeholder="Enter your first name">
+
+                    <label for="reg-lastname">Last Name</label>
+                    <input type="text" name="reg-lastname" id="reg-lastname" placeholder="Enter your last name">
+
+                    <label for="reg-phone">Phone Number (optional)</label>
+                    <input type="text" name="reg-phone" id="reg-phone" placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-column">
+                    <label for="reg-email" id="regEmailLabel">Email</label>
+                    <input type="email" name="reg-email" id="reg-email" placeholder="Enter your email">
+
+                    <label for="reg-password">Password</label>
+                    <input type="password" name="reg-password" id="reg-password" placeholder="Enter your password">
+
+                    <label for="reg-confirm-password">Confirm Password</label>
+                    <input type="password" name="reg-confirm-password" id="reg-confirm-password" placeholder="Confirm your password">
+                </div>
+            </div>
+
+            <div class="register-warning-message" name="reg-warning" id="reg-warning"></div>
+
+            <input class="modal-register-btn" type="submit" value="Register">
+
+            <div class="switch-to-login">
+                Already have an account? <a id="openLoginLink">Login</a>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="login-register.js"></script>
+<script>
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+
+    //const emailLabel = document.getElementById('emailLabel');
+    const email = document.getElementById('email');
+
+    const openLoginLink = document.getElementById('openLoginLink');
+    const openRegisterLink = document.getElementById('openRegisterLink');
+    const mainRegisterLink = document.getElementById('mainRegisterLink');
+    const closeRegisterBtn = document.getElementById('closeRegisterBtn');
+
+    //const publicTabRegister = document.getElementById('publicTabRegister');
+    //const mcgillTabRegister = document.getElementById('mcgillTabRegister');
+
+    const regWarningDiv = document.getElementById("reg-warning");
+
+    //const regprompt = document.getElementById('reg-prompt');
+    const loginprompt = document.getElementById('log-prompt');
+    const passprompt = document.getElementById('passprompt');
+    const sregprompt = document.getElementById('sregprompt');
+    const existprompt = document.getElementById('user-not-exist');
+
+    window.addEventListener('load', function() {
+        // Check if the URL contains 'login=true'
+        const urlParams = new URLSearchParams(window.location.search);
+        const registered = urlParams.get('registered');
+        const pass = urlParams.get('pass');
+        const reg = urlParams.get('reg');
+
+        if (registered === 'true') {
+            // Open the login modal when the page loads
+            loginModal.style.display = 'flex';
+            loginprompt.style.display = 'flex';
+        }
+        if (registered === 'false') {
+            //registerModal.style.display = 'flex';
+            //regprompt.style.display = 'flex';
+            loginModal.style.display = 'flex';
+            loginprompt.style.display = 'none';
+            existprompt.style.display = 'flex';
+        }
+        if (pass === 'false') {
+            loginModal.style.display = 'flex';
+            passprompt.style.display = 'flex';
+        }
+        if (reg === 'true') {
+            loginModal.style.display = 'flex';
+            sregprompt.style.display = 'flex';
+        }
+
+    });
+
+    // Show login modal when the login button is clicked
+    openModalBtn.addEventListener('click', () => {
+        loginModal.style.display = 'flex';
+    });
+
+    // Hide the login modal when the close button is clicked
+    closeModalBtn.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+        loginprompt.style.display = 'none';
+        passprompt.style.display = 'none';
+        sregprompt.style.display = 'none';
+    });
+
+    // Hide modals when clicking outside of them
+    window.addEventListener('click', (event) => {
+        if (event.target === loginModal) {
+            loginModal.style.display = 'none';
+            loginprompt.style.display = 'none';
+            passprompt.style.display = 'none';
+            sregprompt.style.display = 'none';
+        }
+        if (event.target === registerModal) {
+            registerModal.style.display = 'none';
+            loginprompt.style.display = 'none';
+            passprompt.style.display = 'none';
+            sregprompt.style.display = 'none';
+        }
+    });
+
+    // Clicking on "Register" link in login modal opens the register modal
+    openRegisterLink.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'flex';
+        regWarningDiv.style.display = 'none';
+        passprompt.style.display = 'none';
+    });
+
+    // Clicking on "Register" link in main screen opens the register modal
+    mainRegisterLink.addEventListener('click', () => {
+        registerModal.style.display = 'flex';
+        regWarningDiv.style.display = 'none';
+        passprompt.style.display = 'none';
+    });
+
+    // Close registration modal
+    closeRegisterBtn.addEventListener('click', () => {
+        registerModal.style.display = 'none';
+        regWarningDiv.style.display = 'none';
+        loginprompt.style.display = 'none';
+        regprompt.style.display = 'none';
+        passprompt.style.display = 'none';
+    });
+
+    // Clicking on "Login" link in register modal opens the login modal
+    openLoginLink.addEventListener('click', () => {
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'flex';
+        passprompt.style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

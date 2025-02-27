@@ -1,0 +1,6 @@
+<div class='menu'>
+    <a id="home-link" href='index.php?Page=Home'><div class="home">Home</div></a>
+    <a id="create-link" href='index.php?Page=Create'><div class="create">Create</div></a>
+	<a id="manage-link" href='index.php?Page=Manage'><div class="manage">Manage</div></a>
+    <a id="requests-link" href='index.php?Page=Requests'><div class="requests">Requests</div></a>
+</div>

@@ -1,0 +1,80 @@
+<script>
+    // Written by Lucas Renaudie
+    // Get the next-available block and the select element
+    const nextAvailableBlock = document.getElementById('next-available');
+    const dropdown = document.getElementById('next-available-select');
+    const numberOfOptions = dropdown.options.length;
+    const numberOfPixels = 22 + numberOfOptions * 30;
+
+    let initialValue;              // To store the initially selected value
+    let ignoreNextClick = false;   // Flag to manage click events
+
+    // Function to expand the container
+    const expandContainer = () => {
+        nextAvailableBlock.style.transition = 'padding-bottom 0.15s ease'; // Smooth transition
+        nextAvailableBlock.style.paddingBottom = `${numberOfPixels}px`;    // Expand the block
+    };
+
+    // Function to collapse the container
+    const collapseContainer = () => {
+        nextAvailableBlock.style.transition = 'padding-bottom 0.15s ease'; // Smooth transition
+        nextAvailableBlock.style.paddingBottom = '20px';                  // Collapse the block
+    };
+
+    // Event listener for focus (when dropdown gains focus)
+    dropdown.addEventListener('focus', () => {
+        initialValue = dropdown.value; // Store the initially selected value
+        expandContainer();             // Expand the container
+    });
+
+    // Event listener for blur (when dropdown loses focus)
+    dropdown.addEventListener('blur', () => {
+        collapseContainer();           // Collapse the container
+    });
+
+    // Event listener for change (when a different option is selected)
+    dropdown.addEventListener('change', () => {
+        dropdown.blur();               // Programmatically lose focus after selection
+    });
+
+    // Event listener for mousedown to identify opening action
+    dropdown.addEventListener('mousedown', () => {
+        if (dropdown !== document.activeElement) {
+            // If dropdown is not already focused, the next click is to open it
+            ignoreNextClick = true;
+        }
+    });
+
+    // Event listener for click to handle selecting the same option
+    dropdown.addEventListener('click', () => {
+        if (ignoreNextClick) {
+            // This click was to open the dropdown; ignore it for blurring
+            ignoreNextClick = false;
+            return;
+        }
+
+        // Use a timeout to allow the selection to process
+        setTimeout(() => {
+            if (dropdown.value === initialValue) {
+                // If the selected value hasn't changed, trigger blur
+                dropdown.blur();
+            }
+        }, 0); // Short delay to ensure proper processing
+    });
+
+    function submitBooking() {
+        document.getElementById('bookingForm').submit();
+    }
+	function submitRequest() {
+        document.getElementById('reqBook').submit();
+    }
+
+    function bookReqOwn() {
+        alert("Can not book your own meeting!");
+    }
+
+    function reqOwn() {
+        alert("Can not request an alternate time to your own meeting!");
+    }
+
+</script>

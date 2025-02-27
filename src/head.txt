@@ -1,0 +1,31 @@
+</head>
+<!--Written By Ping-Chieh Tu-->
+<body>
+<div class="header">
+    <div class="logo">
+        <a href="index.php"><img src="./utils/images/logos/desktop-logo.png" class="desktop-logo" alt="Desktop Logo"></a>
+        <a href="index.php"><img src="./utils/images/logos/mobile-logo.png" class="mobile-logo" alt="Mobile Logo"></a>
+    </div>
+    <div class="profile-icon" id="profileIconContainer">
+        <a href="#" id="profileIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                 fill="currentColor" class="bi bi-person-circle"
+                 viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242
+                             11.226 4.805 10 8 10s4.757 1.225
+                             5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+        </a>
+        <div class="side-nav profile-side-nav" id="profileSideNav">
+            <a href="settings.php" class="side-nav-item">
+                <img src="utils/images/useful/settings.png" alt="Settings Icon" class="side-nav-icon">
+                <span>Settings</span>
+            </a>
+            <a href="logout.php" class="side-nav-item">
+                <img src="utils/images/useful/logout.webp" alt="Log Out Icon" class="side-nav-icon">
+                <span>Log Out</span>
+            </a>
+        </div>
+    </div>
+</div>

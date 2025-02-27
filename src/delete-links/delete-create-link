@@ -1,0 +1,6 @@
+<script>
+const link = document.getElementById("create-link");
+if (link) {
+    link.removeAttribute('href'); // Remove the href attribute to disable navigation
+}
+</script>

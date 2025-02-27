@@ -1,0 +1,195 @@
+<!--Written by Lucas Renaudie-->
+<style>
+       .main-content {
+            display: flex;
+            padding: 70px;
+            padding-left: 140px;
+        }
+
+        .meeting-title {
+            font-size: 44px;
+            padding-bottom: 60px;
+        }
+
+        .meeting-details p {
+            margin: 5px 0;
+        }
+
+        .meeting-details .office-hours {
+            margin-top: 15px;
+        }
+
+        .span-title {
+                    padding-top: 0px
+                }
+                .span-desc {
+                    padding-top: 20px
+                }
+
+        .meeting-details button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        .next-available {
+            position: absolute;
+            left: 630px;
+            width: 320px;
+            top: 295px;
+            background-color: #f3f3f3;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .next-av {
+            font-size: 21px;
+            margin-bottom: 24px;
+        }
+
+        .date {
+            font-size: 18px;
+            width: 100%;
+            padding-bottom: 24px;
+        }
+        .time {
+            font-size: 18px;
+            width: 100%;
+        }
+
+        p {
+            font-size: 20px;
+        }
+        .course {
+            padding-bottom: 20px;
+        }
+
+        .office-hours {
+            font-size: 26px;
+            padding-top: 30px;
+            width: 340px;;
+        }
+
+        .office-hours ul {
+                    margin-right: 74px;
+            margin-top: 40px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .office-hours li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        .modal-login-btn {
+            margin-top: 38px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            padding-left: 72px;
+            padding-right: 71px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .modal-login-btn:hover {
+            background-color: #e60000;
+        }
+        .modal-login-btn:active {
+            background-color: #cc0000;
+        }
+        .unable-btn {
+            margin-top: 20px;
+            background-color: #aaa;
+            color: white;
+            border: none;
+            padding: 10px;
+            padding-left: 61px;
+            padding-right: 61px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: default;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .unable-btn:hover {
+             background-color: #888;
+
+        }
+        .unable-btn:active {
+             background-color: #666;
+        }
+
+        @media (max-width: 1024px) {
+        .meeting-title {
+                    padding-bottom: 40px;
+                }
+
+            .main-content {
+                padding-left: 140px;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .next-available {
+                position: static;
+                width: 260px;
+                margin-top: 50px;
+                margin-bottom: 30px;
+                flex-direction: column;
+            }
+
+            .meeting-details button {
+                margin-top: 10px;
+            }
+
+            .office-hours li {
+                display: flex;
+                justify-content: space-between;
+                font-size: 20px;
+                margin: 5px 0;
+            }
+
+            .modal-login-btn {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+        .meeting-title {
+                    padding-bottom: 40px;
+                }
+
+            .meeting-title {
+                font-size: 30px;
+            }
+
+            .main-content {
+                flex-direction: column;
+                padding: 60px;
+                padding-left: 80px;
+            }
+
+            .next-available {
+                width: 260px;
+            }
+
+            .modal-login-btn {
+                margin-top: 30px;
+            }
+        }
+    </style>

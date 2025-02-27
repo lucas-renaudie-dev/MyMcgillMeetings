@@ -1,0 +1,30 @@
+<script>
+    const profileIcon = document.getElementById('profileIcon');
+    const profileSideNav = document.getElementById('profileSideNav');
+    const profileIconContainer = document.getElementById('profileIconContainer');
+
+    profileIcon.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        if (profileSideNav.classList.contains('open')) {
+            profileSideNav.classList.remove('open');
+            profileIconContainer.classList.remove('open');
+        } else {
+            profileSideNav.classList.add('open');
+            profileIconContainer.classList.add('open');
+        }
+    });
+
+    window.addEventListener('click', (event) => {
+        if (!event.target.closest('.profile-icon')) {
+            profileSideNav.classList.remove('open');
+            profileIconContainer.classList.remove('open');
+        }
+    });
+    function confirmLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+            window.location.href = "logout.php";
+        }
+    }
+</script>
+</body>
+</html>

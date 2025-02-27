@@ -1,0 +1,247 @@
+<!--Written by Lucas Renaudie-->
+<style>
+        .main-content {
+            display: flex;
+            padding: 70px;
+            padding-left: 140px;
+        }
+
+        .meeting-title {
+            font-size: 44px;
+            padding-bottom: 60px;
+        }
+
+        .meeting-details p {
+            margin: 5px 0;
+        }
+
+        .meeting-details .office-hours {
+            margin-top: 15px;
+        }
+
+        .span-title {
+            padding-top: 0px
+        }
+        .span-desc {
+            padding-top: 20px
+        }
+
+        .meeting-details button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        .next-available {
+            position: absolute;
+            left: 630px;
+            width: 320px;
+            top: 295px;
+            background-color: #f3f3f3;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+            transition: padding-bottom 0.15s ease;
+            padding-bottom: 20px;
+        }
+
+        .next-av {
+            font-size: 21px;
+            margin-bottom: 16px;
+        }
+
+        .next-available select {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+        .course {
+            padding-bottom: 20px;
+        }
+
+        .office-hours {
+            padding-top: 30px;
+            font-size: 26px;
+            width: 340px;;
+        }
+
+        .office-hours ul {
+            margin-right: 74px;
+            margin-top: 40px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .office-hours li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        .buttons {
+            margin-top: 44px;
+            width: 300px;
+        }
+
+        .modal-login-btn {
+            margin-top: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            padding-left: 77px;
+            padding-right: 77px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer; /* Ensure pointer cursor */
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .modal-login-btn:hover {
+            background-color: #e60000;
+        }
+        .modal-login-btn:active {
+            background-color: #cc0000;
+        }
+
+        .modal-login-btn2 {
+            margin-top: 20px;
+            background-color: #aaa;
+            color: white;
+            border: none;
+            padding: 10px;
+            padding-left: 30px;
+            padding-right: 30px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer; /* Ensure pointer cursor */
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .modal-login-btn2:hover {
+            background-color: #888;
+        }
+        .modal-login-btn2:active {
+            background-color: #666;
+        }
+        .modal-login-btn3 {
+                    margin-top: 20px;
+                    background-color: #ff4d4d;
+                    color: white;
+                    border: none;
+                    padding: 10px;
+                    padding-left: 44px;
+                    padding-right: 44px;
+                    text-align: center;
+                    border-radius: 5px;
+                    cursor: pointer; /* Ensure pointer cursor */
+                    font-size: 18px;
+                    transition: background-color 0.3s ease;
+                }
+                .modal-login-btn3:hover {
+                    background-color: #e60000;
+                }
+                .modal-login-btn3:active {
+                    background-color: #cc0000;
+                }
+        .unable-btn {
+                    margin-top: 20px;
+                    background-color: #aaa;
+                    color: white;
+                    border: none;
+                    padding: 10px;
+                    padding-left: 70px;
+                    padding-right: 71px;
+                    text-align: center;
+                    border-radius: 5px;
+                    cursor: default;
+                    font-size: 18px;
+                    transition: background-color 0.3s ease;
+        }
+        .unable-btn:hover {
+                     background-color: #888;
+
+                }
+                .unable-btn:active {
+                     background-color: #666;
+                }
+
+        @media (max-width: 1024px) { /* Tablet */
+        .meeting-title {
+                    padding-bottom: 40px;
+                }
+
+            .main-content {
+                padding-left: 140px;
+            }
+
+            .main-content {
+                flex-direction: column; /* Stack content vertically */
+            }
+
+            .next-available {
+                position: static; /* Reset positioning for flow layout */
+                width: 300px; /* Make it take full width */
+                margin-top: 50px; /* Add spacing above the button */
+                margin-bottom: 30px; /* Add spacing above the button */
+            }
+
+            .office-hours li {
+                display: flex;
+                justify-content: space-between;
+                font-size: 20px;
+                margin: 5px 0;
+            }
+
+            .modal-login-btn {
+                margin-top: 30px;
+            }
+
+            .buttons {
+                  margin-top: 34px;
+            }
+        }
+
+        @media (max-width: 768px) { /* Tablet */
+        .meeting-title {
+                    padding-bottom: 40px;
+                }
+
+            .buttons {
+                   margin-top: 34px;
+            }
+
+            .meeting-title {
+                font-size: 40px;
+            }
+
+            .main-content {
+                flex-direction: column;
+                padding: 60px;
+                padding-left: 80px;
+            }
+
+            .next-available {
+                    width: 300px;
+                }
+
+            .modal-login-btn {
+                margin-top: 30px;
+            }
+
+            .next-available {
+                        width: 260px;
+            }
+        }
+    </style>

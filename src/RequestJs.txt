@@ -1,0 +1,166 @@
+<script>
+//written by danielle rhodes and ping-chieh tu
+document.getElementById("itemContainer").addEventListener("click", function (event) {
+        if (event.target.classList.contains("item")) {
+            const content = event.target.getAttribute("data-content");
+            document.querySelector(".selected-content").textContent = content;
+        }
+    });
+
+
+	document.body.addEventListener('click', function (event) {
+		if (event.target.classList.contains('item')) {
+			showDetails(event.target);
+		}
+	});
+	function formatTime(time) {
+		// Split the input time
+		let splitTime = time.split(':');
+		var splitHours = splitTime[0];
+		var hours = parseInt(splitHours);
+		var minutes = splitTime[1];
+		const period = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12 || 12;
+		//alert(hours);
+		return `${hours}:${minutes} ${period}`;
+	}
+    function showDetails(item) {
+		try {
+			const data = JSON.parse(item.getAttribute('data-content'));
+			const contentArea = document.querySelector('.selected-content');
+			var formattedTime = formatTime(data.time);
+			var formattedDate = formatDateAMPM(data.date);
+			contentArea.innerHTML = `
+				<h2> Appointment Request</h2>
+				<p id="date"><b>Date:</b> ${formattedDate}</p>
+				<p id="time"><b>Time:</b> ${formattedTime}</p>
+				<p id="name"><b>Name:</b> ${data.name}</p>
+				<p id="requestId" hidden>${data.requestId}</p>
+				<p id="url" hidden>${data.url}</p>
+				<p id="uEmail" hidden>${data.uEmail}</p>
+				<p id="id" hidden>${data.id}</p>
+			`;
+
+			const buttonContainer = document.getElementById('hidden-button-container');
+			buttonContainer.style.display = 'block';
+			// Continue with rendering logic
+		} catch (error) {
+			alert("Failed to load details. Invalid data format.");
+		}
+		
+		
+	}
+	function convertTo24Hour(time12Hour) {
+		const [time, modifier] = time12Hour.split(' '); 
+		let [hours, minutes] = time.split(':'); 
+
+		// Convert hours to 24-hour format
+		if (modifier === 'PM' && hours !== '12') {
+			hours = parseInt(hours, 10) + 12;
+		} else if (modifier === 'AM' && hours === '12') {
+			hours = '00';
+		}
+
+		return `${String(hours).padStart(2, '0')}:${minutes}:00`; 
+	}
+    function refuseReq() {
+        const requestId = document.getElementById("requestId").innerHTML;
+		const contentArea = document.querySelector('.selected-content');
+		const id = document.getElementById("id").innerHTML;
+
+        fetch('deleteRequest.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `requestId=${encodeURIComponent(requestId)}`,
+        })
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            if (data.success) {
+                alert("Request deleted successfully!");
+				const buttons = document.getElementById("hidden-button-container");
+				buttons.style.display = 'none';
+				contentArea.innerHTML = `<div class="selected-content">Please select a request from the section</div>`;
+				const itemContainer = document.getElementById("itemContainer");
+				const toRemove = document.getElementById(id);
+				itemContainer.removeChild(toRemove);
+            } else {
+                alert("Failed to delete request: " + data.message);
+            }
+        })
+        .catch(error => {
+            alert("An error occurred while deleting the request.");
+        });
+    }
+    function approveReq() {
+		const contentArea = document.querySelector('.selected-content');
+		const requestId = document.getElementById("requestId").innerHTML;
+		const url = document.getElementById("url").innerHTML;
+		const date = contentArea.querySelector("#date").innerText.replace("Date:", "").trim();
+		const formattedDate = formatDateForDatabase(date);
+		const time = contentArea.querySelector('#time').innerText.replace("Time:", "").trim();
+		const time24Hour = convertTo24Hour(time);
+		const uEmail = document.getElementById("uEmail").innerHTML;
+		const id = document.getElementById("id").innerHTML;
+		fetch('ApproveRequest.php', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: `requestId=${encodeURIComponent(requestId)}&url=${encodeURIComponent(url)}
+			&date=${encodeURIComponent(formattedDate)}&time=${encodeURIComponent(time24Hour)}&uEmail=${encodeURIComponent(uEmail)}`,
+		})
+			.then(response => response.json()) // Parse the JSON response
+			.then(data => {
+				if (data.success) {
+					alert("Request approved successfully!");
+					// Clear the content area
+					const buttons = document.getElementById("hidden-button-container");
+					buttons.style.display = 'none';
+					contentArea.innerHTML = `<div class="selected-content">Please select a request from the section</div>`;
+					const itemContainer = document.getElementById("itemContainer");
+					const toRemove = document.getElementById(id);
+					itemContainer.removeChild(toRemove);
+				} else {
+					alert("Failed to approve request: " + data.message);
+				}
+			})
+			.catch(error => {
+				alert("An error occurred while approving the request.");
+			});
+	}
+	function parseDate(dateToParse) {
+		var parsedDate = new Date(dateToParse);
+		const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		const months = [
+			"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		];
+		var dayOfWeek = daysOfWeek[parsedDate.getDay()];
+		var month = months[parsedDate.getMonth()];
+		var day = parsedDate.getDate();
+		return `${dayOfWeek}, ${month} ${day}`;
+	};
+	function formatDateAMPM(inputDate, timeZone = 'UTC') {
+		const date = new Date(inputDate);
+		const formatter = new Intl.DateTimeFormat('en-US', {
+			timeZone: timeZone, //desired time zone
+			weekday: 'long',    //full day
+			month: 'long',      //full month
+			day: 'numeric',      //day of month
+			year: 'numeric' 
+		});
+
+		return formatter.format(date); 
+	}
+	function formatDateForDatabase(inputDate) {
+		const [dayName, monthName, dayNumber, year] = inputDate.split(/,? /);
+		const months = {
+			January: "01", February: "02", March: "03", April: "04", May: "05", June: "06",
+			July: "07", August: "08", September: "09", October: "10", November: "11", December: "12"
+		};
+
+		return `${year}-${months[monthName]}-${dayNumber.padStart(2, "0")}`;
+	}
+</script>

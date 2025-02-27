@@ -1,0 +1,307 @@
+<script>
+//written by danielle rhodes
+const date = document.getElementById("date");
+const withWho = document.getElementById("withWho");
+const type = document.getElementById("type");
+const description = document.getElementById("description");
+const email = document.getElementById("email");
+const title = document.getElementById("title");
+const url = document.getElementById("url");
+const cancelButton = document.getElementById("cancelButton");
+const urlString = document.getElementById("url").innerHTML;
+const slotId = document.getElementById("slotId");
+const appointmentsDiv = document.getElementById('appointments');
+const rightSidediv = document.getElementById("right-side");
+const notFound = document.getElementById("notFound");
+const hostedBy = document.getElementById("hostedBy");
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+	const data = appointmentsData;
+	if (data.length === 0) {
+		rightSidediv.style.display = "none";
+		notFound.style.display = 'block';
+		return; // Exit the function if no data
+	};
+	var counter = -10000;
+	let past_appointments = [];
+	let upcoming_appointments = [];
+    const thisUser = data.thisUser;
+	data.appointments.forEach(appointment => {
+	const appCard = document.createElement('div');
+	appCard.className = 'appointment-card';
+	var appointmentDate = new Date(`${appointment.date}T${appointment.time}`);
+	var todaysDate = new Date();
+	var id = "";
+	if (appointmentDate >= todaysDate) {
+		if (counter < 1) {
+			counter = 1;
+		}
+		id = "Upcoming" + counter;
+		appCard.style.display = 'block';
+	}
+	else {
+		id = "Past" + counter;
+		appCard.style.display = 'none';
+	}
+	var appCardId = id + "Card";
+	appCard.id = appCardId;
+	var parsedDate = formatDateAMPM(appointment.date) + " " + formatTime(appointment.time);
+	var descriptionID = id + "description";
+	var typeID = id + "type";
+	var emailID = id + "email";
+	var startdateID = id + "startdate";
+	var fullname = "";
+	var nameID = id + "name";
+	var titleID = id + "title";
+	var urlID = id + "url";
+	var slotID = id + "slotId";
+	var hostedID = id + "hostedBy";
+if (appointment.uEmail.toLowerCase() == thisUser.toLowerCase()) {
+    fullname = appointment.member_fname + " " + appointment.member_lname;
+    appCard.innerHTML = `
+        <h3 id=${startdateID}>${parsedDate}</h3>
+        <p id=${titleID}><strong>${appointment.title}</strong></p>
+        <p id=${nameID}>With: ${fullname}</p>
+        <input id=${descriptionID} type="hidden" value="${appointment.description}"/>
+        <input id=${typeID} type="hidden" value="${appointment.type}"/>
+        <input id=${emailID} type="hidden" value="${appointment.mEmail}"/>
+        <input id=${urlID} type="hidden" value="${appointment.url}"/>
+		<input id=${slotID} type="hidden" value="${appointment.slotId}"/>
+        `;
+	appCard.onclick = () => changeCurrentAppointment(appCardId);
+
+    if (counter == 1) {
+        date.innerHTML = "Appointment On: " + parsedDate;
+        withWho.innerHTML = "With: " + fullname;
+        email.innerHTML = "Email: " + appointment.mEmail;
+        title.innerHTML = appointment.title;
+        description.innerHTML = appointment.description;
+        url.innerHTML = appointment.url;
+		slotId.innerHTML = appointment.slotId;
+		appCard.classList.add('selected');
+		hostedBy.style.display = 'none';
+    };
+}
+else if (appointment.mEmail.toLowerCase() == thisUser.toLowerCase() && appointment.uEmail.toLowerCase() == thisUser.toLowerCase()){
+}
+else if (appointment.mEmail.toLowerCase() == thisUser.toLowerCase() && appointment.uEmail.toLowerCase() != thisUser.toLowerCase()) {
+
+    fullname = appointment.user_fname + " " + appointment.user_lname;
+	var host = "You are the host of this meeting";
+	
+    appCard.innerHTML = `
+        <h3 id=${startdateID}>${parsedDate}</h3>
+        <p id=${titleID}><strong>${appointment.title}</strong></p>
+        <p id=${nameID}>With: ${fullname}</p>
+		<p id=${hostedID}><i>${host}</i> </p>
+        <input id=${descriptionID} type="hidden" value="${appointment.description}"/>
+        <input id=${typeID} type="hidden" value="${appointment.type}"/>
+        <input id=${emailID} type="hidden" value="${appointment.uEmail}"/>
+        <input id=${urlID} type="hidden" value="${appointment.url}"/>
+		<input id=${slotID} type="hidden" value="${appointment.slotId}"/>
+        `;
+	appCard.onclick = () => changeCurrentAppointment(appCardId);
+
+    if (counter == 1) {
+        date.innerHTML = "Appointment On: " + parsedDate;
+        withWho.innerHTML = "With: " + fullname;
+        email.innerHTML = "Email: " + appointment.uEmail;
+        title.innerHTML = appointment.title;
+        description.innerHTML = appointment.description;
+        url.innerHTML = appointment.url;
+		slotId.innerHTML = appointment.slotId;
+		appCard.classList.add('selected');
+		hostedBy.style.display = 'block';
+		hostedBy.innerHTML = host;
+    };
+}
+
+		if (counter < 1) {
+			past_appointments.push(appCard);
+		}
+		else {
+			appointmentsDiv.appendChild(appCard);
+			upcoming_appointments.push(appCard);
+		}
+
+		counter += 1;
+	});
+	let reversedList = past_appointments.reverse();
+	for (let i = 0; i < reversedList.length; i++) {
+		appointmentsDiv.appendChild(past_appointments[i]);
+	}
+	if (upcoming_appointments.length == 0) {
+		rightSidediv.style.display = "none";
+		notFound.style.display = 'block';
+	}
+        
+
+});
+
+function formatTime(time) {
+    // Split the input time
+    let splitTime = time.split(':');
+    var splitHours = splitTime[0];
+    var hours = parseInt(splitHours);
+    var minutes = splitTime[1];
+    const period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${hours}:${minutes} ${period}`;
+}
+
+function changeTypeOfAppointment() {
+    const filter = document.getElementById('typeOfAppointments').value;
+    const upcomingAppointments = document.querySelectorAll('[id^="Upcoming"][id$="Card"]');
+    const pastAppointments = document.querySelectorAll('[id^="Past"][id$="Card"]');
+    if (filter === 'upcoming') {
+        // Show upcoming appointments, hide past appointments
+        for (let i = 0; i < pastAppointments.length; i++) {
+            var appt = pastAppointments[i];
+            appt.style.display = 'none';
+        }
+        if (upcomingAppointments.length == 0) {
+            rightSidediv.style.display = "none";
+            notFound.style.display = 'block';
+        }
+        else {
+            notFound.style.display = 'none';
+            rightSidediv.style.display = "block";
+        }
+        for (let i = 0; i < upcomingAppointments.length; i++) {
+            var appt = upcomingAppointments[i]; 
+            appt.style.display = 'block';
+            if (i == 0) {
+                changeCurrentAppointment(appt.id);
+            }
+        }
+        cancelButton.style.display = 'block';
+       
+    } else if (filter === 'past') {
+        // Show past appointments, hide upcoming appointments
+        for (let i = 0; i < upcomingAppointments.length; i++) {
+            var appt = upcomingAppointments[i];
+            appt.style.display = 'none';
+        }
+        for (let i = 0; i < pastAppointments.length; i++) {
+            var appt = pastAppointments[i]; 
+            appt.style.display = 'block';
+            if (i == 0) {
+                changeCurrentAppointment(appt.id); 
+            }
+        }
+        if (pastAppointments.length == 0) {
+            rightSidediv.style.display = "none";
+            notFound.style.display = 'block';
+        }
+        else {
+            notFound.style.display = 'none';
+            rightSidediv.style.display = "block";
+        }
+        cancelButton.style.display = 'none';
+    }
+}
+
+function changeCurrentAppointment(cardId) {
+    if (cardId != null) {
+        const allCards = document.querySelectorAll('.appointment-card');
+        allCards.forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        var thisCard = document.getElementById(cardId);
+        thisCard.classList.add('selected');
+
+        
+        //var thisCard = document.getElementById(cardId);
+        //thisCard.style.border = "2px solid #ED1B2F";
+
+        var SplitId = cardId.split("Card");
+        var ID = SplitId[0];
+		
+		var thisHostedBy = document.getElementById(ID + "hostedBy");
+		
+
+
+        var thisStartDate = document.getElementById(ID + "startdate").innerHTML;
+        var thisName = document.getElementById(ID + "name").innerHTML;
+        var thisType = document.getElementById(ID + "type").value;
+        var thisDescription = document.getElementById(ID + "description").value;
+        var thisEmail = document.getElementById(ID + "email").value;
+        var thisTitle = document.getElementById(ID + "title").innerHTML;
+        var thisUrl = document.getElementById(ID + "url").value;
+		var thisSlotId = document.getElementById(ID + "slotId").value;
+		if (!thisHostedBy){
+			hostedBy.style.display = 'none';
+		}
+		else{
+			hostedBy.style.display = 'block';
+			hostedBy.innerHTML = thisHostedBy.innerHTML;
+		}
+		
+        date.innerHTML = "Appointment On: " + thisStartDate;
+        withWho.innerHTML = thisName;
+        description.innerHTML = thisDescription;
+        email.innerHTML = "Email: " + thisEmail;
+        title.innerHTML = thisTitle;
+        url.innerHTML = thisUrl;
+		slotId.innerHTML = thisSlotId;
+    }
+};
+
+cancelButton.addEventListener("click", () => {
+	if (!confirmDelete()) { // don't delete if user cancels their choice
+        return;
+    }
+	
+    thisUrl = document.getElementById("url").innerHTML;
+	thisSlotId = document.getElementById("slotId").innerHTML;
+    fetch('CancelAppointment.php', {
+        method: 'POST',
+        body: JSON.stringify({ url: thisUrl, slotId: thisSlotId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success == true) {
+            location.reload();
+        }
+    })
+    .catch(error => { });
+});
+
+function parseDate(dateToParse) {
+    var parsedDate = new Date(dateToParse);
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    var dayOfWeek = daysOfWeek[parsedDate.getDay()];
+    var month = months[parsedDate.getMonth()];
+    var day = parsedDate.getDate();
+    return `${dayOfWeek}, ${month} ${day}`;
+};
+function formatDateAMPM(inputDate, timeZone = 'UTC') {
+	const date = new Date(inputDate);
+	const formatter = new Intl.DateTimeFormat('en-US', {
+		timeZone: timeZone, // Specify the desired time zone
+		weekday: 'long',    // Full day name (e.g., "Tuesday")
+		month: 'long',      // Full month name (e.g., "December")
+		day: 'numeric'      // Day of the month (e.g., "17")
+	});
+
+	return formatter.format(date); // Returns formatted date
+}
+
+// Make the user confirm before deleting by Jeffrey Gan
+function confirmDelete() {
+    let text = "Are you sure you want to delete this appointment?\n" +
+	date.innerText;
+    if(confirm(text)){
+        return true;
+    } else {
+        return false;
+    }
+}
+</script>

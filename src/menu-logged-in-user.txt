@@ -1,0 +1,3 @@
+<div class='menu'>
+    <a id="home-link" href='index.php?Page=Home'><div class="home">Home</div></a>
+</div>

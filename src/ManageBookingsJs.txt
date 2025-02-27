@@ -1,0 +1,268 @@
+<script>
+// Base code by Danielle Rhodes, adapted to shows Bookings by Jeffrey Gan.
+
+const title = document.getElementById("title");
+const date = document.getElementById("date");
+const description = document.getElementById("description");
+const url = document.getElementById("url");
+const urlString = document.getElementById("url").innerHTML;
+
+const cancelButton = document.getElementById("cancelButton");
+const copyButton = document.getElementById("copy-button");
+const copyInput = document.getElementById("bookingURL");
+
+const appointmentsDiv = document.getElementById('appointments');
+const container = document.querySelector('.container');
+const rightSidediv = document.getElementById("right-side");
+const notFound = document.getElementById("notFound");
+
+const manageSlots = document.getElementById("manage-slots");
+
+// Load the Bookings
+document.addEventListener('DOMContentLoaded', () => {
+	let data = bookingData; // array primitive set by ManageBookings.php
+
+	if (data.length === 0) {
+		rightSidediv.style.display = "none";
+		notFound.style.display = 'block';
+		//console.log('No appointments found.');
+        container.classList.add('no-appointments');
+		return; // Exit the function if no data
+	};
+
+	//console.log(data);
+
+	var counter = 1;
+	let past_appointments = [];
+	let upcoming_appointments = [];
+	data.forEach(appointment => {
+        // Create application card
+		const appCard = document.createElement('div');
+		appCard.className = 'appointment-card';
+
+        let startDate = new Date( Date.parse( `${appointment.startdate}` + ' 00:00:00.000' ));
+        let endDate = new Date( Date.parse( `${appointment.enddate}` + ' 23:59:59.999'));
+        let dateRange = startDate.toDateString() + " - " + endDate.toDateString();
+
+        startDate.setHours(0,0,0,0);
+        endDate.setHours(23,59,59,999);
+
+		let todayDate = new Date();
+
+        let upcoming = true;
+        // create id
+		let id = "";
+		if (endDate >= todayDate) { // Not past enddate yet
+			upcoming = true;
+			id = "Upcoming" + counter;
+			appCard.style.display = 'block';
+		}
+		else { // enddate has passed
+            upcoming = false;
+			id = "Past" + counter;
+			appCard.style.display = 'none';
+		}
+		var appCardId = id + "Card";
+		appCard.id = appCardId;
+
+		//console.log("Creating card for:", appointment);
+
+        // ids for elements inside appCard
+        var titleID = id + "title";
+		var dateID = id + "date";
+        var descriptionID = id + "description";
+		var urlID = id + "url";
+
+        // make appCard elements
+
+		appCard.innerHTML = `
+		<h3 id=${dateID}> ${dateRange} </h3>
+		<p id=${titleID}><strong> ${appointment.title} </strong></p>
+		<input id=${descriptionID} type="hidden" value="${appointment.description}"/>
+		<input id=${urlID} type="hidden" value="${appointment.url}"/>
+		`;
+
+        appCard.onclick = () => changeCurrentAppointment(appCardId);
+
+        // auto-select first booking
+		if (counter == 1) {
+			date.innerHTML = dateRange;
+			title.innerHTML = appointment.title;
+			description.innerHTML = appointment.description;
+			url.innerHTML = "URL: " + " https://cs.mcgill.ca/~jgan10/url.php?url=" + appointment.url;
+            copyInput.value = appointment.url;
+			appCard.classList.add('selected');
+			manageSlots.href="ManageBookingSlots.php?url=" + appointment.url;
+			//appCard.style.border = "2px solid #ED1B2F"; // 2px solid border with color #ED1B2F
+		};
+
+		if (!upcoming) {
+			past_appointments.push(appCard);
+		}
+		else {
+			appointmentsDiv.appendChild(appCard);
+			upcoming_appointments.push(appCard);
+		}
+		//console.log(appCard.innerHTML);
+
+		counter += 1;
+	});
+
+	let reversedList = past_appointments.reverse();
+	for (let i = 0; i < reversedList.length; i++) {
+		appointmentsDiv.appendChild(past_appointments[i]);
+	}
+	if (upcoming_appointments.length == 0) {
+		rightSidediv.style.display = "none";
+		notFound.style.display = 'block';
+		//console.log('No appointments found.');
+
+        container.classList.add('no-appointments');
+	}
+});
+
+function changeTypeOfAppointment() {
+    const filter = document.getElementById('typeOfAppointments').value;
+    const upcomingAppointments = document.querySelectorAll('[id^="Upcoming"][id$="Card"]');
+    const pastAppointments = document.querySelectorAll('[id^="Past"][id$="Card"]');
+    if (filter === 'upcoming') {
+        // Show upcoming appointments, hide past appointments
+        for (let i = 0; i < pastAppointments.length; i++) {
+            var appt = pastAppointments[i];
+            appt.style.display = 'none';
+        }
+        if (upcomingAppointments.length == 0) {
+            rightSidediv.style.display = "none";
+            notFound.style.display = 'block';
+            //console.log('No appointments found.');
+
+            container.classList.add('no-appointments');
+        }
+        else {
+            notFound.style.display = 'none';
+            rightSidediv.style.display = "block";
+
+            container.classList.remove('no-appointments');
+        }
+        for (let i = 0; i < upcomingAppointments.length; i++) {
+            var appt = upcomingAppointments[i]; 
+            appt.style.display = 'block';
+            if (i == 0) {
+                changeCurrentAppointment(appt.id);
+            }
+        }
+        //cancelButton.style.display = 'block';
+       
+    } else if (filter === 'past') {
+        // Show past appointments, hide upcoming appointments
+        for (let i = 0; i < upcomingAppointments.length; i++) {
+            var appt = upcomingAppointments[i];
+            appt.style.display = 'none';
+        }
+        for (let i = 0; i < pastAppointments.length; i++) {
+            var appt = pastAppointments[i]; 
+            appt.style.display = 'block';
+            if (i == 0) {
+                changeCurrentAppointment(appt.id); 
+            }
+        }
+        if (pastAppointments.length == 0) {
+            rightSidediv.style.display = "none";
+            notFound.style.display = 'block';
+            //console.log('No appointments found.');
+
+            container.classList.add('no-appointments');
+        }
+        else {
+            notFound.style.display = 'none';
+            rightSidediv.style.display = "block";
+
+            container.classList.remove('no-appointments');
+        }
+        //cancelButton.style.display = 'none';
+    }
+}
+
+function changeCurrentAppointment(cardId) {
+    if (cardId != null) {
+        const allCards = document.querySelectorAll('.appointment-card');
+        allCards.forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        var thisCard = document.getElementById(cardId);
+        thisCard.classList.add('selected');
+
+        var SplitId = cardId.split("Card");
+        var ID = SplitId[0];
+
+        var thisDate = document.getElementById(ID + "date").innerHTML;
+        var thisDescription = document.getElementById(ID + "description").value;
+        var thisTitle = document.getElementById(ID + "title").innerHTML;
+        var thisUrl = document.getElementById(ID + "url").value;
+
+        date.innerHTML = thisDate;
+        description.innerHTML = thisDescription;
+        title.innerHTML = thisTitle;
+        url.innerHTML = "URL: " + "https://cs.mcgill.ca/~jgan10/url.php?url=" + thisUrl;
+        copyInput.value = thisUrl;
+		
+		manageSlots.href = "ManageBookingSlots.php?url=" + thisUrl;
+    }
+};
+
+cancelButton.addEventListener("click", () => {
+    if (!confirmDelete()) { // don't delete if user cancels their choice
+        return;
+    }
+
+    thisUrl = document.getElementById("bookingURL").value;
+    fetch('CancelBooking.php', {
+        method: 'POST',
+        body: JSON.stringify({ url: thisUrl }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        //console.log("Server response:", data);
+        if (data.success == true) {
+            location.reload();
+        }
+    })
+    .catch(error => console.error('Error cancelling appointment:', error));
+});
+
+// Make the user confirm before deleting by Jeffrey Gan
+function confirmDelete() {
+    let text = "Are you sure you want to delete this booking?\n" + 
+    "URL: " + copyInput.value;
+    if(confirm(text)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// JavaScript to handle URL copying by Lucas Renaudie
+function copyBookingURL() {
+    const bookingURL = copyInput.value;
+    const fullURL = "https://cs.mcgill.ca/~jgan10/url.php?url=" + bookingURL;
+    navigator.clipboard.writeText(fullURL)
+        .then(() => {
+                const copyButton = document.getElementById("copy-button");
+                const copyLabel = document.getElementById("copy-label");
+                const ogText = copyLabel.textContent;
+
+                copyButton.disabled = true;
+                copyLabel.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copyButton.disabled = false;
+                    copyLabel.textContent = ogText;
+                }, 1000);
+            })
+        .catch(err => {
+            console.error('Failed to copy URL: ', err);
+        });
+}
+
+</script>

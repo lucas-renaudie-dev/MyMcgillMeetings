@@ -1,0 +1,212 @@
+<!--Written by Lucas Renaudie and Danielle Rhodes-->
+<style>
+    .menu .home {
+        background-color: #C11111;
+    }
+    .menu .home:hover {
+        background-color: #C11111;
+        cursor: default;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; 
+        margin: 50px;
+        position: relative; 
+        
+    }
+    .welcome-text {
+        margin-left:50px;
+        margin-top: 50px;
+    }
+
+    .appointments {
+        flex: 1;
+        margin-right: 80px;
+    }
+
+    .appointment-card {
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f4f4f4;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+        min-height: 70px;;
+        height: auto;
+    }
+    .appointment-card:hover {
+        background-color: #ddd;
+        cursor: pointer;
+    }
+
+    .appointment-card h3 {
+        margin: 0 0 5px;
+        font-size: 1rem;
+    }
+
+    .appointment-card p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .appointment-card a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .appointment-card.selected {
+        background-color: #e0e0e0;
+        border: 1px solid #636363;
+    }
+    .appointment-details {
+        flex: 1;
+        border-radius: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .appointment-details h3 {
+        margin: 0 0 10px;
+    }
+
+    .appointment-details p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .buttons {
+        margin-top: 15px;
+    }
+
+    .buttons button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .cancel-button {
+         color: white;
+         background-color: #ff4d4d;
+         transition: background-color 0.3s ease;
+
+    }
+    .cancel-button:hover {
+         background-color: #e60000;
+    }
+    .cancel-button:active {
+         background-color: #cc0000;
+    }
+
+    .right-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .heading-right {
+        margin-top: 36px;
+        margin-bottom: 36px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: black;
+        text-align: left;
+    }
+
+    @media screen and (max-width: 1024px) {
+        .welcome-text {
+            margin-left:34px;
+            margin-top: 40px;
+        }
+
+        .heading-right {
+            font-size: 20px;
+            margin-top: -6px;
+        }
+
+        .container {
+            flex-direction: column;
+            margin: 34px;
+            align-items: stretch;
+        }
+
+        .appointment-details {
+            margin-right: 20px;
+        }
+
+        .right-side {
+            order: -1;
+            margin-bottom: 20px;
+        }
+
+        .appointments {
+            margin-right: 20px;
+        }
+
+        .custom-select-container {
+            margin-top: 20px;
+        }
+    }
+
+    
+    @media screen and (min-width: 1025px) {
+        .container::after {
+            content: "";
+            position: absolute;
+            left: 50%; 
+            top: 0;
+            transform: translateX(-50%); 
+            width: 2px; 
+            height: 100%; 
+            background-color: #ccc; 
+        }
+
+         .container.no-appointments::after {
+                visibility: hidden;
+            }
+    }
+
+    .custom-select-container {
+        border-radius: 12px;
+        background-color: #F4F4F4;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 20px;
+        display: block;
+        background-color: #f4f4f4;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .custom-select {
+        background-color: #F4F4F4;
+        padding: 10px 20px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        max-width: 300px;
+        color: #000;
+        border: none;
+    }
+
+    .custom-select:focus {
+        outline: none;
+    }
+
+    .custom-select-container::after {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: #000;
+        pointer-events: none;
+    }
+</style>

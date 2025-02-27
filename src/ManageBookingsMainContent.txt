@@ -1,0 +1,45 @@
+<div id="main-content" class="main-content">
+    <!-- Adapted from Danielle Rhodes' appointmentsPageMainContent.txt by Jeffrey Gan -->
+    <div class="container">
+        <!-- Bookings List -->
+        
+        <div id="appointments" class="appointments">
+            <div class="custom-select-container">
+                <select class="custom-select" id="typeOfAppointments" onchange="changeTypeOfAppointment()">
+                    <option value="upcoming">Active Bookings</option>
+                    <option value="past">Past Bookings</option>
+                </select>
+            </div>
+            <br />
+            <div id="notFound" hidden>
+                <h2 style="color:red">No Appointments Found</h2>
+            </div>
+        </div>
+        
+        <!-- Selected Booking Details -->
+        <div id="right-side" class="right-side" hidden>
+            <h2 class="heading-right"> Selected Booking </h2>
+            <div class="appointment-details">
+                <h3 id="title"> Title </h3>
+                <h4 id="date"> </h4>
+                <p>
+                    <strong>Description:</strong>
+                </p>
+                <p id="description"> You haven't chosen a booking yet! </p>
+                <br>
+                <p id="url"></p>
+
+                <div class="buttons">
+                    <button class="delete-btn" id="cancelButton">Delete</button>
+
+                    <!-- Copy button copied from Lucas Renaudie's create_meeting_success.php -->
+                    <!-- Hidden input to store the URL -->
+                    <input type="hidden" id="bookingURL" value="">
+                    <button class="copy-btn" id="copy-button" onclick="copyBookingURL()"> <span id="copy-label"> Copy URL </span> </button>
+					
+					<a id="manage-slots" href="#"> Availabilities </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

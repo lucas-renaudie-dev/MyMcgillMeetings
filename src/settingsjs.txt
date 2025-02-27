@@ -1,0 +1,115 @@
+<script>
+    // Written by Melody Wang
+    /*
+    // Update the profile picture if the "updated_pfp" query parameter exists
+    const urlParams = new URLSearchParams(window.location.search);
+    const updatedPfp = urlParams.get('updated_pfp');
+
+    if (updatedPfp) {
+        const profilePic = document.getElementById('profile-pic');
+        profilePic.src = updatedPfp;
+
+        // Remove the query parameter from the URL
+        history.replaceState(null, "", window.location.pathname);
+    }
+        */
+   
+    // Fetch and display the user's profile picture?
+    /*fetch("fetch_profile_pic.php")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to fetch profile picture");
+        }
+        return response.json();
+    })
+    .then(data => {
+        const profilePic = document.getElementById("profile-pic");
+        profilePic.src = data.profilePic; // Dynamically set the src attribute
+    })
+    .catch(error => {
+        console.error("Error fetching profile picture:", error);
+        // Optionally set a fallback if the fetch fails
+        //document.getElementById("profile-pic").src = "./utils/images/useful/default-profile.png";
+    });*/
+
+    // Dynamically update the preview when selecting a new file
+    const fileInput = document.getElementById('profile-pic-upload');
+    const profilePic = document.getElementById('profile-pic');
+
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePic.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Validate the "Change Password" form
+    const changePasswordForm = document.getElementById('change-password-form');
+    changePasswordForm.addEventListener('submit', function (event) {
+        const currentPassword = document.getElementById('current-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        const warningDiv = document.createElement('div');
+        warningDiv.style.color = 'red';
+        warningDiv.style.marginTop = '10px';
+        warningDiv.id = 'change-password-warning';
+
+        const existingWarning = document.getElementById('change-password-warning');
+        if (existingWarning) {
+            existingWarning.remove();
+        }
+
+        // Validate current password is not empty
+        if (!currentPassword) {
+            warningDiv.textContent = '* Please enter your current password.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+
+        // Validate new password is not empty
+        if (!newPassword) {
+            warningDiv.textContent = '* Please enter your new password.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+
+        // Validate confirm password is not empty
+        if (!confirmPassword) {
+            warningDiv.textContent = '* Please enter your new password.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+
+        // Validate new password length (at least 6 characters)
+        if (newPassword.length < 6) {
+            warningDiv.textContent = '* New password must be at least 6 characters long.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+
+        if (newPassword.length > 16) {
+            warningDiv.textContent = '* New password must be maximum 16 characters long.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+
+        // Validate new password matches confirm password
+        if (newPassword !== confirmPassword) {
+            warningDiv.textContent = '* New password and confirm password do not match.';
+            changePasswordForm.appendChild(warningDiv);
+            event.preventDefault();
+            return;
+        }
+    });
+    </script>
+    

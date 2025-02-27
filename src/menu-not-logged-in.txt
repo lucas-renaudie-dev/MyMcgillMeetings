@@ -1,0 +1,3 @@
+<div class="menu">
+    <a href="#"><div>&nbsp;</div></a>
+</div>

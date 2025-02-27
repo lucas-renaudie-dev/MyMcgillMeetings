@@ -1,0 +1,245 @@
+<style>
+	/* Adapted from Danielle Rhodes' appointmentsPageCSS.txt by Jeffrey Gan */
+    .menu .manage {
+        background-color: #C11111;
+    }
+    .menu .manage:hover {
+        background-color: #C11111;
+        cursor: default;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start; /* Reverted from stretch to flex-start */
+        margin: 50px;
+        position: relative; /* Added to position the pseudo-element */
+        /* Removed min-height: 100vh; */
+    }
+
+    .welcome-text {
+        margin-left:50px;
+        margin-top: 50px;
+    }
+
+    .appointments {
+        flex: 1;
+        margin-right: 80px;
+    }
+
+    .appointment-card {
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f4f4f4; /* Background color */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .appointment-card:hover {
+        background-color: #ddd; /* Background color */
+    }
+
+    .appointment-card h3 {
+        margin: 0 0 5px;
+        font-size: 1rem;
+    }
+
+    .appointment-card p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .appointment-card a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .appointment-card.selected {
+        background-color: #e0e0e0;
+        border: 1px solid #636363;
+    }
+	
+    .appointment-details {
+        flex: 1;
+        border-radius: 20px;
+        padding: 20px;
+        background-color: #f4f4f4; /* Background color */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .appointment-details h3 {
+        margin: 0 0 10px;
+    }
+
+    .appointment-details p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .buttons {
+        margin-top: 15px;
+    }
+
+    .buttons button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+		min-width: 100px;
+		width: 100px;
+    }
+
+    .right-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .heading-right {
+        margin-top: 36px;
+        margin-bottom: 36px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: black;
+        text-align: left;
+    }
+	
+        .delete-btn {
+             color: white;
+             background-color: #ff4d4d;
+             transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+             background-color: #e60000;
+        }
+        .delete-btn:active {
+             background-color: #cc0000;
+        }
+        .copy-btn {
+             color: white;
+             background-color: #888;
+             transition: background-color 0.3s ease;
+        }
+        .copy-btn:hover {
+             background-color: #666;
+        }
+        .copy-btn:active {
+             background-color: #444;
+        }
+		
+	.buttons #manage-slots {
+		padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+		min-width: 100px;
+		width: 100px;
+		font-size: 14px;
+		color: white;
+		background-color: #888;
+		transition: background-color 0.3s ease;
+	}
+	
+	.buttons #manage-slots:hover {
+		background-color: #666;
+	}
+	
+	.buttons #manage-slots:hover {
+		background-color: #444;
+	}
+
+    @media screen and (max-width: 1024px) {
+        .welcome-text {
+            margin-left:34px;
+            margin-top: 40px;
+        }
+
+        .heading-right {
+            font-size: 20px;
+            margin-top: -6px;
+        }
+
+        .container {
+            flex-direction: column;
+            margin: 34px;
+            align-items: stretch;
+        }
+
+        .appointment-details {
+            margin-right: 20px;
+        }
+
+        .right-side {
+            order: -1;
+            margin-bottom: 20px;
+        }
+
+        .appointments {
+            margin-right: 20px;
+        }
+
+        .custom-select-container {
+            margin-top: 20px;
+        }
+    }
+
+    /* Divider Styles for Larger Screens */
+    @media screen and (min-width: 1025px) {
+        .container::after {
+            content: "";
+            position: absolute;
+            left: 50%; /* Positions the divider in the middle */
+            top: 0;
+            transform: translateX(-50%); /* Centers the divider */
+            width: 2px; /* Thickness of the divider */
+            height: 100%; /* Spans the full viewport height */
+            background-color: #ccc; /* Color of the divider */
+        }
+
+         .container.no-appointments::after {
+                visibility: hidden; /* Hides the divider */
+            }
+    }
+
+    .custom-select-container {
+        border-radius: 12px;
+        background-color: #F4F4F4;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 20px; /* Adds spacing below the dropdown */
+        display: block;
+        background-color: #f4f4f4; /* Background color */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .custom-select {
+        background-color: #F4F4F4;
+        padding: 10px 20px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        max-width: 300px;
+        color: #000;
+        border: none;
+    }
+
+    .custom-select:focus {
+        outline: none;
+    }
+
+    .custom-select-container::after {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: #000;
+        pointer-events: none;
+    }
+</style>
